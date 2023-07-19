@@ -1,0 +1,28 @@
+
+
+CC=g++ -O3 -static -Wno-write-strings -D_GCC_ -fopenmp -finline-functions -ffast-math -std=c++11
+
+PRGNAME=genomePainter-0.5
+
+SOURCES=$(shell ls *.cpp)
+OBJECTS=$(shell for file in $(SOURCES);\
+                do echo -n $$file | sed -e "s/\(.*\)\.cpp/\1\.o/"; echo -n " ";\
+                done)
+all:  bin
+
+bin : objects
+	echo $(OBJECTS)
+	$(CC) *.o -o $(PRGNAME)
+
+objects : $(OBJECTS)
+
+%.o : %.cpp
+	$(CC) -c $< -o $@
+
+clean:
+	rm -f *.o $(PRGNAME)
+
+depend:
+	$(CC) -M *.cpp > $@
+
+include depend

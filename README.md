@@ -6,6 +6,17 @@ simpLAI is a window-based approach that leverages information on the matching of
 
 The program performs three types of inferences. In the first two modes, the ancestry assigned to a target haplotype of predefined size (*-s*) is that of the reference population that displays the lowest average number of mismatches with the target (*mean*) or that includes the chromosome displaying the lowest number of mismatches with the target (*min*). The third mode accounts for intra-population ancestry switches that may have occurred within a haplotype through recombination (*rec*). Each haplotype segment consists of n polymorphic sites (*-n*) and the number of mismatches between a target and each chromosome of the reference population is computed on subsets of t linked polymorphic sites (assumed to be a non-recombining segment). The path consisting of the combination of segments (potentially identified on different chromosomes) among the n polymorphic sites showing the smallest number of mismatches within each reference population is selected to compare reference populations. The reference with the shortest path is selected for the ancestry of the target haplotype. The increment for the sliding window is defined in base pairs (*-i*) for the mean and min mode and in number of polymorphic sites (*-m*) for the rec mode.
 
+#### Input file:
+The input file (see toy example *test.gen*) is a tab-separated file in which the first four columns contain information on chromosome, position (bp), ancestral allele, and derived allele. Note that using major and minor alleles instead of ancestral and derived is also fine. These four columns are followed by phased data for all chromosomes/haplotypes (one per column) of source population 1, of source population 2, and finally of the admixed targets.
+
+#### Output files:
+simpLAI produces three files with LAI results, one file for each LAI mode (min, mean, rec). The first column of these files reports the start position of the window and the following columns report the LAI for each admixed target, as ordered in the input. The ancestry assignment is a numeric value (1, 2, etc) corresponding to the order of source populations in the input file.
+
+#### Test example:
+```console
+./simpLAI -g test.gen --ss1 10 --ss2 10 --ssa 20 -l 1e8 -s 1e6 -i 5e5 -n 1000 -m 500 -t 5
+```
+
 #### Usage:
 ```console
  -h  --help               : prints this usage  
